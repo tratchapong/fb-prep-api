@@ -78,10 +78,13 @@ module.exports.login = tryCatch( async (req,res) => {
     throw(customError('invalid login', 401))
   }
   const payload = {
-    [identityKey] : identity,
-    firstName : foundUser.firstName
+    id: foundUser.id,
   }
   const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn : '30d'})
 
   res.json({token})
 } )
+
+module.exports.getMe = (req,res) => {
+  res.json({user : req.user})
+}

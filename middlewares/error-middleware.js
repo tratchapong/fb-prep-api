@@ -1,3 +1,4 @@
 module.exports = (err, req, res, next) => {
-  res.status(err.statusCode).json({error : err.message})
+  statusCode = err.statusCode || 500
+  res.status(statusCode).json({error : err.message})
 }

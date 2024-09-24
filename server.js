@@ -1,12 +1,14 @@
 require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
+const morgan = require('morgan')
 const notFound = require('./middlewares/not-found')
 const errorMiddleware = require('./middlewares/error-middleware')
 const authRoute = require('./routes/auth-route')
 
 const app = express()
 
+app.use(morgan('dev'))
 app.use(cors())
 app.use(express.json())
 

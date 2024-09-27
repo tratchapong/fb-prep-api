@@ -22,5 +22,9 @@ module.exports.createPost = tryCatch( async (req, res) => {
 })
 
 module.exports.getAllPosts = tryCatch( async (req,res) => {
-	res.json('getAllPosts')
+	const rs = await prisma.post.findMany({
+		where : { userId: req.user.id},
+		orderBy : {createdAt : 'desc'}
+	})
+	res.json({posts : rs})
 })

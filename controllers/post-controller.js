@@ -23,8 +23,25 @@ module.exports.createPost = tryCatch( async (req, res) => {
 
 module.exports.getAllPosts = tryCatch( async (req,res) => {
 	const rs = await prisma.post.findMany({
-		where : { userId: req.user.id},
-		orderBy : {createdAt : 'desc'}
+		orderBy : {createdAt : 'desc'},
+		include : {
+			user : { 
+				select : {
+					firstName : true, lastName : true, profileImage : true
+				}
+			}
+		}
+		
 	})
 	res.json({posts : rs})
 })
+
+
+// module.exports.getAllPosts = tryCatch( async (req,res) => {
+// 	const rs = await prisma.post.findMany({
+// 		// where : { userId: req.user.id},
+// 		orderBy : {createdAt : 'desc'}
+		
+// 	})
+// 	res.json({posts : rs})
+// })

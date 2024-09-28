@@ -29,6 +29,15 @@ module.exports.getAllPosts = tryCatch( async (req,res) => {
 				select : {
 					firstName : true, lastName : true, profileImage : true
 				}
+			},
+			comments : {
+				include : {
+					user : {
+						select : {
+							firstName : true, lastName : true, profileImage : true
+						}
+					}
+				}
 			}
 		}
 		

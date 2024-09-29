@@ -46,11 +46,23 @@ module.exports.getAllPosts = tryCatch( async (req,res) => {
 })
 
 
-// module.exports.getAllPosts = tryCatch( async (req,res) => {
-// 	const rs = await prisma.post.findMany({
-// 		// where : { userId: req.user.id},
-// 		orderBy : {createdAt : 'desc'}
-		
-// 	})
-// 	res.json({posts : rs})
-// })
+module.exports.editPost = tryCatch( async (req,res) => {
+	const {id} = req.params
+	const {message} = req.body
+	const haveFile = !!req.file
+	let uploadResult = ''
+	if(haveFile) {
+		uploadResult = await cloudinary.uploader.upload(req.file.path,{
+			public_id : path.parse(req.file.path).name 
+		})
+		fs.unlink(req.file.path)
+	}
+	const data = haveFile 
+	 ? { message, image: uploadResult.secure_url, userId: req.user.id	}
+	 : { message, userId: req.user.id }
+	const rs = await prisma.post.update({
+		where : { id : +id },
+		data : data
+	})
+	res.json(rs)
+})

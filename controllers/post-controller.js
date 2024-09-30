@@ -38,6 +38,15 @@ module.exports.getAllPosts = tryCatch( async (req,res) => {
 						}
 					}
 				}
+			},
+			likes : {
+				include : {
+					user : {
+						select : {
+							firstName : true, lastName : true, profileImage : true
+						}
+					}
+				}
 			}
 		}
 		

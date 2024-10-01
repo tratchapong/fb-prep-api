@@ -59,7 +59,7 @@ model Like {
   user          User      @relation( fields: [userId], references: [id])
   post          Post      @relation( fields: [postId], references: [id])  
 
-  @@id([userId, postId])
+  @@id(name : "likeId" , [userId, postId])
 }
 
 enum RelationshipStatus {
